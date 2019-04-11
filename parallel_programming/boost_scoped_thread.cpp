@@ -29,4 +29,6 @@ struct repeat
 int main(int argc, char** argv)
 {
     boost::scoped_thread<repeat> t{boost::thread{thread}};
+
+    return 0;
 }

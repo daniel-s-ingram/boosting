@@ -9,22 +9,26 @@ void wait(int seconds)
 
 void thread()
 {
-    for(int i = 1;; i+= 2)
+    try
     {
-        wait(1);
-        std::cout << i << '\n';
-        wait(1);
+        for(int i = 0; i < 5; ++i)
+        {
+            std::cout << i << '\n';
+            wait(1);
+        }
+    }
+    catch(boost::thread_interrupted&)
+    {
+        std::cout << "Interrupted!\n";
     }
 }
 
 int main(int argc, char** argv)
 {
     boost::thread t{thread};
-    for(int i = 0;; i += 2)
-    {
-        std::cout << i << '\n';
-        wait(2);
-    }
+    wait(3);
+    t.interrupt();
+    t.join();
 
     return 0;
 }
