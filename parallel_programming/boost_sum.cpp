@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
+#include <memory>
 #include <boost/thread/thread.hpp>
 #include <boost/timer/timer.hpp>
 
@@ -47,13 +48,13 @@ int main(int argc, char** argv)
     boost::timer::cpu_timer mt_timer;
 
     boost::thread_group threads;
-    std::vector<Adder*> adders;
+    std::vector<std::unique_ptr<Adder> > adders;
     adders.reserve(NTHREADS);
     for (int i = 0; i < NTHREADS; ++i)
     {
         int start = i * N_PER_THREAD;
         int stop = i == NTHREADS - 1 ? N + 1 : (i + 1) * N_PER_THREAD;
-        adders.push_back(new Adder(start, stop));
+        adders.emplace_back(new Adder(start, stop));
         threads.add_thread(new boost::thread(boost::ref(*adders[i])));
     }
     threads.join_all();
