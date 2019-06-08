@@ -11,7 +11,7 @@ const int N_PER_THREAD = N/NTHREADS;
 
 class Adder
 {
-    friend std::uint64_t operator+(std::uint64_t lhs, const Adder& rhs);
+    friend inline std::uint64_t operator+(std::uint64_t lhs, const Adder& rhs);
 
     private:
         std::uint64_t sum = 0;
@@ -27,7 +27,7 @@ class Adder
         }
 };
 
-std::uint64_t operator+(std::uint64_t lhs, const Adder& rhs)
+inline std::uint64_t operator+(std::uint64_t lhs, const Adder& rhs)
 {
     return lhs + rhs.sum;
 }
